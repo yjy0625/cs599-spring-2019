@@ -152,7 +152,12 @@ def train_net(data, model, loss_func, optimizer, batch_size, max_epochs,
             # pass to the network, and make a step for the optimizer.                   #
             # Store the loss to loss_hist                                               #
             #############################################################################
-            pass
+            output = model.forward(data_batch, True)
+            loss = loss_func.forward(output, labels_batch)
+            loss_hist.append(loss)
+            dLoss = loss_func.backward()
+            dX = model.backward(dLoss)
+            optimizer.step()
             #############################################################################
             #                             END OF YOUR CODE                              #
             #############################################################################
@@ -169,7 +174,8 @@ def train_net(data, model, loss_func, optimizer, batch_size, max_epochs,
         # compute_acc method, store the results to train_acc and val_acc,           #
         # respectively                                                              #
         #############################################################################
-        pass
+        train_acc = compute_acc(model, data_train, labels_train, num_samples=data_train.shape[0])
+        val_acc = compute_acc(model, data_val, labels_val, num_samples=data_val.shape[0])
         #############################################################################
         #                             END OF YOUR CODE                              #
         #############################################################################
@@ -182,7 +188,9 @@ def train_net(data, model, loss_func, optimizer, batch_size, max_epochs,
             # TODO: Save the optimal parameters to opt_params variable by name using    #
             # model.net.gather_params method                                            #
             #############################################################################
-            pass
+            model.net.gather_params()
+            opt_params = model.net.params
+            opt_val_acc = val_acc
             #############################################################################
             #                             END OF YOUR CODE                              #
             #############################################################################

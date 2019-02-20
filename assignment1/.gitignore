@@ -10,3 +10,4 @@ MNIST_data
 .*checkpoints
 lib/tf_models/problem2
 env/
+data/
