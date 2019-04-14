@@ -147,7 +147,6 @@ def train_net(data, model, loss_func, optimizer, timesteps, batch_size, max_epoc
             print("Decaying learning rate of the optimizer to {}".format(optimizer.lr))
 
         # Main training loop
-        pred = np.zeros((1,model.hidden_dim))
         for iter in xrange(iter_start, iter_end):
             data_batch, labels_batch = dataloader.get_batch()
             
@@ -157,7 +156,11 @@ def train_net(data, model, loss_func, optimizer, timesteps, batch_size, max_epoc
             # TODO: Update the parameters by a forward pass for the network, a backward #
             # pass to the network, and make a step for the optimizer                    #
             #############################################################################
-            pass
+            feat = model.forward(data_batch, np.zeros((batch_size, model.hidden_dim)))
+            loss = loss_func.forward(feat, labels_batch, mask)
+            dfeat = loss_func.backward()
+            model.backward(dfeat)
+            optimizer.step()
             #############################################################################
             #                             END OF YOUR CODE                              #
             #############################################################################

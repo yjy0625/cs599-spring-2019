@@ -9,7 +9,12 @@ class TestRNN(object):
         self.grads = {}
     
         ########## TODO: ##########
-        pass
+        if cell_type == 'rnn':
+            self.rnn = VanillaRNN(input_dim, hidden_dim)
+        elif cell_type == 'lstm':
+            self.rnn = LSTM(input_dim, hidden_dim)
+        else:
+            raise NotImplementedError()
         ########### END ###########
         
         self.gather_params()
@@ -51,7 +56,12 @@ class LanguageModelRNN(object):
         self.preprocess = word_embedding(word_size, word_vec_dim)
         self.postprocess = temporal_fc(hidden_dim, word_size)
         ########## TODO: ##########
-        pass
+        if cell_type == 'rnn':
+            self.rnn = VanillaRNN(word_vec_dim, hidden_dim)
+        elif cell_type == 'lstm':
+            self.rnn = LSTM(word_vec_dim, hidden_dim)
+        else:
+            raise NotImplementedError()
         ########### END ###########
         self.gather_params()
 
